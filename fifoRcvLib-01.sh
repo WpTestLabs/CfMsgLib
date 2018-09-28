@@ -20,7 +20,7 @@ fifoRcvLp () {  onRcvLpInit
 				doMsg "$line";  line='';
 			fi
 		done
-		if [ -z "$p"; then  #Is this a time out w/o any partial read?
+		if [ -z "$p"]; then  #Is this a time out w/o any partial read?
 			timeOut=true; echo -n "*";  sleep 5;
 		else
 			echo "lclMsgRcv.sh - fifoRcvLp: read -> partial, so sleep 1";  sleep 1;
@@ -37,6 +37,7 @@ startFifoRcv () { local myFifoPFN=$1  myFifoFD # FD = File Descriptor
 }
 doMsg () { echo "doMsg STUB-2  >>$1"; }
 
+mkdir -p /srv/run/wkFlo
 startFifoRcv /srv/run/wkFlo/hstWkFloRcv.fifo
 
 #msg () { echo "$@" >> /srv/run/wkFlo/hstWkFloRcv.fifo; }
