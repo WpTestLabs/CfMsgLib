@@ -30,10 +30,9 @@ fifoRcvLp () {  onRcvLpInit
 	echo "fifoRcvLp() - Exiting: $myFifoPFN FiFo GONE!"
 } # ----
 startFifoRcv () { local myFifoPFN=$1  myFifoFD # FD = File Descriptor
-	[[ -e $myFifoPFN ]] && die "** ERROR: FiFo Pipe already Exists: $myFifoPFN" 
-	trap "rm -f $myFifoPFN" EXIT
-	mkfifo $myFifoPFN;		exec {myFifoFD}<>"$myFifoPFN";  fifoRcvLp;  
-	{myFifoFD}>&- ;  rm -f myFifoPFN;
+	trap "rm -f $myFifoPFN" EXIT;  [[ -e $myFifoPFN ]] || mkfifo $myFifoPFN;
+	exec {myFifoFD}<>"$myFifoPFN";  fifoRcvLp;  {myFifoFD}>&- ;  rm -f myFifoPFN;
+#xx	&& die "** ERROR: FiFo Pipe already Exists: $myFifoPFN" 
 }
 doMsg () { echo "doMsg STUB-2  >>$1"; }
 
