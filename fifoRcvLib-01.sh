@@ -5,7 +5,7 @@ echo '#### /srv/log/wkFlo/hstWkFloRcvRAW.txt ####'  > /srv/log/wkFlo/hstWkFloRcv
 
 exec {logFD}<>"/srv/log/wkFlo/hstWkFloRcvRAW.txt";
 
-log () { echo "`date +%Y/%m/%d-%T` - $@" >>&$logFD; }
+log () { echo "`date +%Y/%m/%d-%T` - $@" >&$logFD; }
 
 log "Starting log for: fifoRcvLib.sh"
 
