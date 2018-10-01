@@ -1,7 +1,7 @@
 #!/bin/sh
 #	echo "fifoRcvLib.sh";
 
-cat > /srv/log/wkFlo/hstWkFloRcvRAW.txt <<< #### /srv/log/wkFlo/hstWkFloRcvRAW.txt ####
+echo '#### /srv/log/wkFlo/hstWkFloRcvRAW.txt ####'  > /srv/log/wkFlo/hstWkFloRcvRAW.txt
 
 exec {logFD}<>"/srv/log/wkFlo/hstWkFloRcvRAW.txt";
 
