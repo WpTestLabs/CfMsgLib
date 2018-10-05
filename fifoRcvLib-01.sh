@@ -44,8 +44,12 @@ startFifoRcv () { local myFifoPFN=$1  myFifoFD # FD = File Descriptor
 #xx	&& die "** ERROR: FiFo Pipe already Exists: $myFifoPFN" 
 }
 
-doMsgA () {  local cmd=$1; shift;  log "doMsgA() - cmd: $cmd >< args: $@"
+TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
+
+doMsgA () {  local cmd=$1; shift;  log "doMsgA() - cmd: $cmd >< args: $@"
+    [[ "TL" = "$1" ]] && TL "$@" && return;
+    
 }
 
 doMsg () { log "doMsg #2  >>$1"; 
