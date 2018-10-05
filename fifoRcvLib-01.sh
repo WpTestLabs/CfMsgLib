@@ -46,9 +46,24 @@ startFifoRcv () { local myFifoPFN=$1  myFifoFD # FD = File Descriptor
 
 TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
+WkPrxySQL () {  log "Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
+    if [[ "0" = $1 ]]; then
+    	log "WkPrxySQL() - Push $2$3 OffSite!"
+    else
+    	log "WkPrxySQL() - Error exit code: $1"
+    fi
+}
+
+declare -A CmdMp     # Create an associative array
+CmdMp[TL]=TL
+CmdMp[WkPrxySQL]=WkPrxySQL
 
 doMsgA () {  local cmd=$1; shift;  log "doMsgA() - cmd: $cmd >< args: $@"
-    [[ "TL" = "$cmd" ]] && TL "$@" && return;
+#xx    [[ "TL" = "$cmd" ]] && TL "$@" && return;
+    cmd=${CmdMp[$cmd]}
+    [[ -n "$cmd" ]] && $cmd "$@" && return;
+    log "doMsgA() - $cmd is not an internal command - Trying external commands..."
+    # @@ call it if 4cmd exists in __/cmd/ dir @@@
     
 }
 
