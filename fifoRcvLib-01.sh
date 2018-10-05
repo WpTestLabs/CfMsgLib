@@ -43,7 +43,16 @@ startFifoRcv () { local myFifoPFN=$1  myFifoFD # FD = File Descriptor
 	exec {myFifoFD}<>"$myFifoPFN";  fifoRcvLp;  {myFifoFD}>&- ;  rm -f myFifoPFN;
 #xx	&& die "** ERROR: FiFo Pipe already Exists: $myFifoPFN" 
 }
-doMsg () { log "doMsg #2  >>$1"; }
+
+doMsgA () {  local cmd=$1; shift;  log "doMsgA() - cmd: $cmd >< args: $@"
+
+}
+
+doMsg () { log "doMsg #2  >>$1"; 
+	[[ "#" = "${1:0:1}" ]] && return;
+	log "NOT a Comment >>$1";
+	doMsgA $1;
+}
 
 mkdir -p /srv/run/wkFlo
 startFifoRcv /srv/run/wkFlo/hstWkFloRcv.fifo
