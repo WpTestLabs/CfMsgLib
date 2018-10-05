@@ -48,7 +48,7 @@ TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
 
 doMsgA () {  local cmd=$1; shift;  log "doMsgA() - cmd: $cmd >< args: $@"
-    [[ "TL" = "$1" ]] && TL "$@" && return;
+    [[ "TL" = "$cmd" ]] && TL "$@" && return;
     
 }
 
