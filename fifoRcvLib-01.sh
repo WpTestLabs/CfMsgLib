@@ -24,7 +24,7 @@ fifoRcvLp () {  onRcvLpInit
 			else
 				if [ $timeOut ]; then timeOut=false; # log ''; #1st after TimeOut -> new ln
 				fi
-				log "MsgPipe[$myFifoPFN] >>$line<<"
+			#dd	log "MsgPipe[$myFifoPFN] >>$line<<"
 				doMsg "$line";  line='';
 			fi
 		done
@@ -61,18 +61,18 @@ CmdMp[SqlHB]=SqlHB
 CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
 
-doMsgA () {  local cmd0=$1; shift;  log "doMsgA() - cmd: $cmd >< args: $@"
+doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
 #xx    [[ "TL" = "$cmd" ]] && TL "$@" && return;
     cmd=${CmdMp[$cmd0]}
     [[ -n "$cmd" ]] && $cmd "$@" && return;
     log "doMsgA() - $cmd0 is not an internal command - Trying external commands..."
     # @@ call it if 4cmd exists in __/cmd/ dir @@@
-    
+    log "??? $cmd0  $@"
 }
 
-doMsg () { log "doMsg #2  >>$1"; 
-	[[ "#" = "${1:0:1}" ]] && return;
-	log "NOT a Comment >>$1";
+doMsg () { #dd log "doMsg #2  >>$1"; 
+	[[ "#" = "${1:0:1}" ]] && log "$@" && return;
+#dd	log "NOT a Comment >>$1";
 	doMsgA $1;
 }
 
