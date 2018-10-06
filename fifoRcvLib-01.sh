@@ -54,10 +54,10 @@ WkPrxySQL () {  log "Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     fi
 }
 
-HB () { log "HB: $@"; }
+SqlHB () { log "SqlHB: $@  `cat /proc/uptime`"; }
 
 declare -A CmdMp     # Create an associative array
-CmdMp[HB]=HB
+CmdMp[SqlHB]=SqlHB
 CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
 
