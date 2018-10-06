@@ -54,15 +54,18 @@ WkPrxySQL () {  log "Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     fi
 }
 
+HB () { log "HB: $@"; }
+
 declare -A CmdMp     # Create an associative array
+CmdMp[HB]=HB
 CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
 
-doMsgA () {  local cmd=$1; shift;  log "doMsgA() - cmd: $cmd >< args: $@"
+doMsgA () {  local cmd0=$1; shift;  log "doMsgA() - cmd: $cmd >< args: $@"
 #xx    [[ "TL" = "$cmd" ]] && TL "$@" && return;
-    cmd=${CmdMp[$cmd]}
+    cmd=${CmdMp[$cmd0]}
     [[ -n "$cmd" ]] && $cmd "$@" && return;
-    log "doMsgA() - $cmd is not an internal command - Trying external commands..."
+    log "doMsgA() - $cmd0 is not an internal command - Trying external commands..."
     # @@ call it if 4cmd exists in __/cmd/ dir @@@
     
 }
