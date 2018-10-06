@@ -30,7 +30,7 @@ fifoRcvLp () {  onRcvLpInit
 		done
 		if [ -z "$p"]; then  #Is this a time out w/o any partial read?
 			timeOut=true; # echo -n "*";  
-			sleep 5;
+			#qq sleep 5;
 		else
 			log "lclMsgRcv.sh - fifoRcvLp: read -> partial, so sleep 1";  sleep 1;
 		fi 
