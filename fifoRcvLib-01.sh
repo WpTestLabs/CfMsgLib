@@ -8,6 +8,7 @@ exec {logFD}<>"/srv/log/wkFlo/hstWkFloRcvRAW.txt";
 log () { echo "`date +%Y/%m/%d-%T` - $@" >&$logFD; }
 
 log "Starting log for: fifoRcvLib.sh"
+export -f log #@@@ But not in Alpine!!!
 
 die () { log "$@"; exit; }
 doMsg () { log "doMsg STUB >>$1"; }
