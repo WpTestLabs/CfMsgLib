@@ -70,12 +70,11 @@ doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     log "WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
     log "`ls $myCmdDir`"
     if [[ -e $myCmdDir/$cmd0 ]]; then
-        $myCmdDir/$cmd0 $@; xc=$?;
+        $myCmdDir/$cmd0 ">>$@"; xc=$?;
     else
         log "** $cmd0 is NOT an External Command **"
     fi
-    # @@ call it if $cmd exists in __/cmd/ dir @@@
-    log "??? $cmd0  $@"
+#		xxxqq    log "??? $cmd0  $@"
 }
 
 doMsg () { #dd log "doMsg #2  >>$1"; 
