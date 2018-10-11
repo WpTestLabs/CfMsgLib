@@ -3,10 +3,12 @@
 
 echo '#### /srv/log/wkFlo/hstWkFloRcvRAW.txt ####'  > /srv/log/wkFlo/hstWkFloRcvRAW.txt
 
-exec {logFD}<>"/srv/log/wkFlo/hstWkFloRcvRAW.txt";
-export logFD;
+export logPFN="/srv/log/wkFlo/hstWkFloRcvRAW.txt"; 
+# exec {logFD}<>"/srv/log/wkFlo/hstWkFloRcvRAW.txt";
+#export logFD;
 
-log () { echo "`date +%Y/%m/%d-%T` - $@" >&$logFD; }
+# log () { echo "`date +%Y/%m/%d-%T` - $@" >&$logFD; }
+log () { echo "`date +%Y/%m/%d-%T` - $@" >>$logPFN; }
 export -f log #@@@ But not in Alpine!!!
 
 log "Starting log for: fifoRcvLib.sh"
