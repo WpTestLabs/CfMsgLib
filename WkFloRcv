@@ -1,0 +1,10 @@
+#!/bin/bbash
+
+TL "Start: $SrvReq/WkFloRcv"
+
+if [[ ! -e "/srv/run/wkFlo/hstWkFloRcv.fifo" ]]; then
+    mkfifo /srv/run/wkFlo/hstWkFloRcv.fifo;
+    $SrvBin/fifoRcvLib-01.sh &
+else TL "** WkFloRcv ALREADY runing **"
+fi
+TL "End: $SrvReq/WkFloRcv"
