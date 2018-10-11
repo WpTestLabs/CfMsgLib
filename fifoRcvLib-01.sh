@@ -38,7 +38,7 @@ fifoRcvLp () {  onRcvLpInit
 	done
 	log "fifoRcvLp() - Exiting: $myFifoPFN FiFo GONE!"
 } # ----
-startFifoRcv () { local myFifoPFN=$1  myFifoFD # FD = File Descriptor
+startFifoRcv () { local myCmdDir=$1 myFifoPFN=$2  myFifoFD # FD = File Descriptor
 	trap "rm -f $myFifoPFN" EXIT;  [[ -e $myFifoPFN ]] || mkfifo $myFifoPFN;
 	exec {myFifoFD}<>"$myFifoPFN";  fifoRcvLp;  {myFifoFD}>&- ;  rm -f myFifoPFN;
 #xx	&& die "** ERROR: FiFo Pipe already Exists: $myFifoPFN" 
@@ -66,7 +66,14 @@ doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     cmd=${CmdMp[$cmd0]}
     [[ -n "$cmd" ]] && $cmd "$@" && return;
     log "doMsgA() - $cmd0 is not an internal command - Trying external commands..."
-    # @@ call it if 4cmd exists in __/cmd/ dir @@@
+    log "WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
+    log "`ls $myCmdDir`"
+    if [[ -e $myCmdDir/$cmd0 ]]; then
+        $myCmdDir/$cmd0 $@; xc=$?;
+    else
+        log "** $cmd0 is NOT an External Command **"
+    fi
+    # @@ call it if $cmd exists in __/cmd/ dir @@@
     log "??? $cmd0  $@"
 }
 
@@ -76,7 +83,8 @@ doMsg () { #dd log "doMsg #2  >>$1";
 	doMsgA $1;
 }
 
-mkdir -p /srv/run/wkFlo
-startFifoRcv /srv/run/wkFlo/hstWkFloRcv.fifo
+mkdir -p /srv/run/wkFlo  $Srv/Knz/WkFlo/srv/cmd
+cd $Srv/Knz/WkFlo/srv/cmd
+startFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo/hstWkFloRcv.fifo
 
 #msg () { echo "$@" >> /srv/run/wkFlo/hstWkFloRcv.fifo; }
