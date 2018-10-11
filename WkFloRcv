@@ -1,4 +1,4 @@
-#!/bin/bbash
+#!/bin/bash
 
 TL "Start: $SrvReq/WkFloRcv"
 
