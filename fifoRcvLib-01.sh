@@ -4,11 +4,12 @@
 echo '#### /srv/log/wkFlo/hstWkFloRcvRAW.txt ####'  > /srv/log/wkFlo/hstWkFloRcvRAW.txt
 
 exec {logFD}<>"/srv/log/wkFlo/hstWkFloRcvRAW.txt";
+export logFD;
 
 log () { echo "`date +%Y/%m/%d-%T` - $@" >&$logFD; }
+export -f log #@@@ But not in Alpine!!!
 
 log "Starting log for: fifoRcvLib.sh"
-export -f log #@@@ But not in Alpine!!!
 
 die () { log "$@"; exit; }
 doMsg () { log "doMsg STUB >>$1"; }
@@ -68,7 +69,7 @@ doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     [[ -n "$cmd" ]] && $cmd "$@" && return;
     log "doMsgA() - $cmd0 is not an internal command - Trying external commands..."
     log "WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
-    log "`ls $myCmdDir`"
+    log "ls>> `ls $myCmdDir`"
     if [[ -e $myCmdDir/$cmd0 ]]; then
         $myCmdDir/$cmd0 ">>$@"; xc=$?;
     else
