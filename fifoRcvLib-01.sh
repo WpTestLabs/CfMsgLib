@@ -11,7 +11,7 @@ log "[Hst] Starting log for: fifoRcvLib.sh"
 
 die () { log "$@"; exit; }
 ##### doMsg () { log "doMsg STUB >>$1"; }
-SqlHB () { log "SqlHB: $@  `cat /proc/uptime`"; }
+SqlHB () { log "[SQL] SqlHB: $@  `cat /proc/uptime`"; }
 
 declare -A CmdMp     # Create an associative array
 CmdMp[SqlHB]=SqlHB
@@ -60,7 +60,7 @@ fifoRcvLp () {  onRcvLpInit
 		fi 
 #qq		timeOut=false
 	done
-	log "fifoRcvLp() - Exiting: $myFifoPFN FiFo GONE!"
+	log "[RcvMsg] fifoRcvLp() - Exiting: $myFifoPFN FiFo GONE!"
 } # ----
 startFifoRcv () { local myCmdDir=$1 myFifoPFN=$2  myFifoFD # FD = File Descriptor
 	trap "rm -f $myFifoPFN" EXIT;  [[ -e $myFifoPFN ]] || mkfifo $myFifoPFN;
