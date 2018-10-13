@@ -1,16 +1,12 @@
 #!/bin/sh
 #	echo "fifoRcvLib.sh";
 
-echo '#### /srv/log/wkFlo/hstWkFloRcvRAW.txt ####'  > /srv/log/wkFlo/hstWkFloRcvRAW.txt
+export LogFQPFN=/srv/log/wkFlo/hstWkFloRcvRAW.txt
+# Example - msg () { echo "$@" >> $LogFQPFN; } # For Knz, add hardlink w/in Kn vw back to main fifo
 
-export logPFN="/srv/log/wkFlo/hstWkFloRcvRAW.txt"; 
-# exec {logFD}<>"/srv/log/wkFlo/hstWkFloRcvRAW.txt";
-#export logFD;
-
-# log () { echo "`date +%Y/%m/%d-%T` - $@" >&$logFD; }
-log () { echo "`date +%Y/%m/%d-%T` - $@" >>$logPFN; }
+echo "#### Start: $LogFQPFN ####"  > $LogFQPFN
+log () { echo "`date +%Y/%m/%d-%T` - $@" >>$LogPFN; }
 export -f log #@@@ But not in Alpine!!!
-
 log "Starting log for: fifoRcvLib.sh"
 
 die () { log "$@"; exit; }
@@ -23,7 +19,6 @@ CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
 
 doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
-#xx    [[ "TL" = "$cmd" ]] && TL "$@" && return;
     cmd=${CmdMp[$cmd0]}
     [[ -n "$cmd" ]] && $cmd "$@" && return;
     log "doMsgA() - $cmd0 is not an internal command - Trying external commands..."
@@ -32,18 +27,14 @@ doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     if [[ -e $myCmdDir/$cmd0 ]]; then
         $myCmdDir/$cmd0 ">>$@"; xc=$?;
     else
-        log "** $cmd0 is NOT an External Command **"
+        log "** $cmd0 is NOT an External Command >> $cmd0 $@  **"
     fi
-#		xxxqq    log "??? $cmd0  $@"
 }
 
 doMsg () { #dd log "doMsg #2  >>$1"; 
 	[[ "#" = "${1:0:1}" ]] && log "$@" && return;
-#dd	log "NOT a Comment >>$1";
 	doMsgA $1;
 }
-
-
 
 onRcvLpInit () { log "#Info - onRcvLpInit is NOOP"; }
 
@@ -74,8 +65,7 @@ fifoRcvLp () {  onRcvLpInit
 startFifoRcv () { local myCmdDir=$1 myFifoPFN=$2  myFifoFD # FD = File Descriptor
 	trap "rm -f $myFifoPFN" EXIT;  [[ -e $myFifoPFN ]] || mkfifo $myFifoPFN;
 	exec {myFifoFD}<>"$myFifoPFN";  fifoRcvLp;  {myFifoFD}>&- ;  rm -f myFifoPFN;
-#xx	&& die "** ERROR: FiFo Pipe already Exists: $myFifoPFN" 
-}
+} ############ End of lib #########
 
 TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
@@ -87,9 +77,7 @@ WkPrxySQL () {  log "Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     fi
 }
 
-
 mkdir -p /srv/run/wkFlo  $Srv/Knz/WkFlo/srv/cmd
 cd $Srv/Knz/WkFlo/srv/cmd
 startFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo/hstWkFloRcv.fifo
 
-#msg () { echo "$@" >> /srv/run/wkFlo/hstWkFloRcv.fifo; }
