@@ -14,7 +14,36 @@ export -f log #@@@ But not in Alpine!!!
 log "Starting log for: fifoRcvLib.sh"
 
 die () { log "$@"; exit; }
-doMsg () { log "doMsg STUB >>$1"; }
+##### doMsg () { log "doMsg STUB >>$1"; }
+SqlHB () { log "SqlHB: $@  `cat /proc/uptime`"; }
+
+declare -A CmdMp     # Create an associative array
+CmdMp[SqlHB]=SqlHB
+CmdMp[TL]=TL
+CmdMp[WkPrxySQL]=WkPrxySQL
+
+doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
+#xx    [[ "TL" = "$cmd" ]] && TL "$@" && return;
+    cmd=${CmdMp[$cmd0]}
+    [[ -n "$cmd" ]] && $cmd "$@" && return;
+    log "doMsgA() - $cmd0 is not an internal command - Trying external commands..."
+    log "WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
+    log "ls>> `ls $myCmdDir`"
+    if [[ -e $myCmdDir/$cmd0 ]]; then
+        $myCmdDir/$cmd0 ">>$@"; xc=$?;
+    else
+        log "** $cmd0 is NOT an External Command **"
+    fi
+#		xxxqq    log "??? $cmd0  $@"
+}
+
+doMsg () { #dd log "doMsg #2  >>$1"; 
+	[[ "#" = "${1:0:1}" ]] && log "$@" && return;
+#dd	log "NOT a Comment >>$1";
+	doMsgA $1;
+}
+
+
 
 onRcvLpInit () { log "#Info - onRcvLpInit is NOOP"; }
 
@@ -58,33 +87,6 @@ WkPrxySQL () {  log "Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     fi
 }
 
-SqlHB () { log "SqlHB: $@  `cat /proc/uptime`"; }
-
-declare -A CmdMp     # Create an associative array
-CmdMp[SqlHB]=SqlHB
-CmdMp[TL]=TL
-CmdMp[WkPrxySQL]=WkPrxySQL
-
-doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
-#xx    [[ "TL" = "$cmd" ]] && TL "$@" && return;
-    cmd=${CmdMp[$cmd0]}
-    [[ -n "$cmd" ]] && $cmd "$@" && return;
-    log "doMsgA() - $cmd0 is not an internal command - Trying external commands..."
-    log "WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
-    log "ls>> `ls $myCmdDir`"
-    if [[ -e $myCmdDir/$cmd0 ]]; then
-        $myCmdDir/$cmd0 ">>$@"; xc=$?;
-    else
-        log "** $cmd0 is NOT an External Command **"
-    fi
-#		xxxqq    log "??? $cmd0  $@"
-}
-
-doMsg () { #dd log "doMsg #2  >>$1"; 
-	[[ "#" = "${1:0:1}" ]] && log "$@" && return;
-#dd	log "NOT a Comment >>$1";
-	doMsgA $1;
-}
 
 mkdir -p /srv/run/wkFlo  $Srv/Knz/WkFlo/srv/cmd
 cd $Srv/Knz/WkFlo/srv/cmd
