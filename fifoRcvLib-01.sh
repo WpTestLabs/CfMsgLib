@@ -7,7 +7,7 @@ export LogFQPFN=/srv/log/wkFlo/hstWkFloRcvRAW.txt
 echo "#### Start: $LogFQPFN ####"  > $LogFQPFN
 log () { echo "`date +%Y/%m/%d-%T` - $@" >>$LogPFN; }
 export -f log #@@@ But not in Alpine!!!
-log "Starting log for: fifoRcvLib.sh"
+log "[Hst] Starting log for: fifoRcvLib.sh"
 
 die () { log "$@"; exit; }
 ##### doMsg () { log "doMsg STUB >>$1"; }
@@ -21,13 +21,13 @@ CmdMp[WkPrxySQL]=WkPrxySQL
 doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     cmd=${CmdMp[$cmd0]}
     [[ -n "$cmd" ]] && $cmd "$@" && return;
-    log "doMsgA() - $cmd0 is not an internal command - Trying external commands..."
-    log "WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
+    log "[WkFlo] doMsgA() - $cmd0 is not an internal command - Trying external commands..."
+    log "[WkFlo] WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
     log "ls>> `ls $myCmdDir`"
     if [[ -e $myCmdDir/$cmd0 ]]; then
         $myCmdDir/$cmd0 ">>$@"; xc=$?;
     else
-        log "** $cmd0 is NOT an External Command >> $cmd0 $@  **"
+        log "[WkFlo] ** $cmd0 is NOT an External Command >> $cmd0 $@  **"
     fi
 }
 
@@ -69,11 +69,11 @@ startFifoRcv () { local myCmdDir=$1 myFifoPFN=$2  myFifoFD # FD = File Descripto
 
 TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
-WkPrxySQL () {  log "Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
+WkPrxySQL () {  log "[WkFlo] Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     if [[ "0" = $1 ]]; then
-    	log "WkPrxySQL() - Push $2$3 OffSite!"
+    	log "[WkFlo] WkPrxySQL() - Push $2$3 OffSite!"
     else
-    	log "WkPrxySQL() - Error exit code: $1"
+    	log "[WkFlo] WkPrxySQL() - Error exit code: $1"
     fi
 }
 
