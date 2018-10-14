@@ -11,12 +11,7 @@ log "[Hst] Starting log for: fifoRcvLib.sh"
 
 die () { log "$@"; exit; }
 ##### doMsg () { log "doMsg STUB >>$1"; }
-SqlHB () { log "[SQL] SqlHB: $@  `cat /proc/uptime`"; }
-
 declare -A CmdMp     # Create an associative array
-CmdMp[SqlHB]=SqlHB
-CmdMp[TL]=TL
-CmdMp[WkPrxySQL]=WkPrxySQL
 
 doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     cmd=${CmdMp[$cmd0]}
@@ -65,8 +60,19 @@ fifoRcvLp () {  onRcvLpInit
 startFifoRcv () { local myCmdDir=$1 myFifoPFN=$2  myFifoFD # FD = File Descriptor
 	trap "rm -f $myFifoPFN" EXIT;  [[ -e $myFifoPFN ]] || mkfifo $myFifoPFN;
 	exec {myFifoFD}<>"$myFifoPFN";  fifoRcvLp;  {myFifoFD}>&- ;  rm -f myFifoPFN;
-} ############ End of lib #########
+} 
 
+suFifoRcv() { local cmdPth=$1  fifoPth=$2 fifoFN=$3 ;
+    mkdir -p $cmdPth $fifoPth;   cd $cmdPth;
+    startFifoRcv $cmdPth  $fifoPth/$fifoFN
+}
+############ End of lib #########
+
+CmdMp[SqlHB]=SqlHB
+CmdMp[TL]=TL
+CmdMp[WkPrxySQL]=WkPrxySQL
+
+SqlHB () { log "[SQL] SqlHB: $@  `cat /proc/uptime`"; }
 TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
 WkPrxySQL () {  log "[WkFlo] Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
@@ -76,8 +82,10 @@ WkPrxySQL () {  log "[WkFlo] Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     	log "[WkFlo] WkPrxySQL() - Error exit code: $1"
     fi
 }
+#######
 
-mkdir -p /srv/run/wkFlo  $Srv/Knz/WkFlo/srv/cmd
-cd $Srv/Knz/WkFlo/srv/cmd
-startFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo/hstWkFloRcv.fifo
+#qq mkdir -p /srv/run/wkFlo  $Srv/Knz/WkFlo/srv/cmd
+#qq cd $Srv/Knz/WkFlo/srv/cmd
+#qq startFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo/hstWkFloRcv.fifo
 
+suFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo  hstWkFloRcv.fifo
