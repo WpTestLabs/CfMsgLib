@@ -1,9 +1,7 @@
 #!/bin/sh
 #	echo "fifoRcvLib-01.sh";
-
 die () { log "$@"; exit; }
 declare -A CmdMp     # Create an associative array
-
 doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     cmd=${CmdMp[$cmd0]}
     [[ -n "$cmd" ]] && $cmd "$@" && return;
@@ -16,14 +14,11 @@ doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
         log "[WkFlo] ** $cmd0 is NOT an External Command >> $cmd0 $@  **"
     fi
 }
-
 doMsg () { #dd log "doMsg #2  >>$1"; 
 	[[ "#" = "${1:0:1}" ]] && log "$@" && return;
 	doMsgA $1;
 }
-
 onRcvLpInit () { log "#Info - onRcvLpInit is NOOP"; }
-
 fifoRcvLp () {  onRcvLpInit
     local tmOt=false  p='~~~' line='__'  ; # tmOt: timeOut (in sec's)
     while [ -p "$myFifoPFN" ]; do
@@ -40,7 +35,6 @@ fifoRcvLp () {  onRcvLpInit
         done
         if [ -z "$p"]; then  #Is this a time out w/o any partial read?
             tmOt=true; # echo -n "*";  
-            #qq sleep 5;
         else
             log "lclMsgRcv.sh - fifoRcvLp: read -> partial, so sleep 1";  sleep 1;
         fi 
@@ -52,7 +46,6 @@ startFifoRcv () { local myCmdDir=$1 myFifoPFN=$2  myFifoFD # FD = File Descripto
     trap "rm -f $myFifoPFN" EXIT;  [[ -e $myFifoPFN ]] || mkfifo $myFifoPFN;
     exec {myFifoFD}<>"$myFifoPFN";  fifoRcvLp;  {myFifoFD}>&- ;  rm -f myFifoPFN;
 } 
-
 suFifoRcv() { local cmdPth=$1  fifoPth=$2 fifoFN=$3 ;
     mkdir -p $cmdPth $fifoPth;   cd $cmdPth;
     startFifoRcv $cmdPth  $fifoPth/$fifoFN
