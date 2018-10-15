@@ -3,15 +3,16 @@
 
 msg "TL [SQL] Start: $Srv/bin/WkFloSqlRcv.sh"
 
-export LogFQPFN=$SrvGP/wkFlo/wkFloSqlRcvRAW.txt
+export LogFQPFN=$SrvGP/run/wkFlo/wkFloSqlRcvLog.txt
 export WfRcvN=WfSqlRcv
 
 # Example - msg () { echo "$@" >> $LogFQPFN; } # For Knz, add hardlink w/in Kn vw back to main fifo
 
 echo "#### Start: $LogFQPFN ####"  > $LogFQPFN
 log () { echo "`date +%Y/%m/%d-%T` - $@" >>$LogFQPFN; }
-export -f log #@@@ But not in Alpine!!!
-log "[Hst] Starting log for: fifoRcvLib.sh" #@@@@@@@@
+#xx export -f log #@@@ But not in Alpine!!!
+export  log #@@@ But not in Alpine!!!
+log "[Hst] Starting log for: WkFloSqlRcv.sh" #@@@@@@@@
 
 . $SrvGP/lib/fifoRcvLib-01.sh # Here $SrvLib is GX
 
