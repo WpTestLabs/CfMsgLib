@@ -13,7 +13,7 @@ log () { echo "`date +%Y/%m/%d-%T` - $@" >>$LogFQPFN; }
 export -f log #@@@ But not in Alpine!!!
 log "[Hst] Starting log for: fifoRcvLib.sh" #@@@@@@@@
 
-. $SrvGP/lib/fifoRcvLib-01.sh # Here $SrvLib is HX
+. $SrvGP/lib/fifoRcvLib-01.sh # Here $SrvLib is GX
 
 CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
