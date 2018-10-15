@@ -5,18 +5,18 @@ declare -A CmdMp     # Create an associative array
 doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     cmd=${CmdMp[$cmd0]}
     [[ -n "$cmd" ]] && $cmd "$@" && return;
-    log "[WkFlo] doMsgA() - $cmd0 is not an internal cmd - Trying external cmd's..."
-    log "[WkFlo] WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
+    log "[$WfRcvN] doMsgA() - $cmd0 is not an internal cmd - Trying external cmd's..."
+    log "[$WfRcvN] WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
     log "ls>> `ls $myCmdDir`"
     if [[ -e $myCmdDir/$cmd0 ]]; then
         $myCmdDir/$cmd0 ">>$@"; xc=$?;
     else
-        log "[WkFlo] ** $cmd0 is NOT an External Command >> $cmd0 $@  **"
+        log "[$WfRcvN] ** $cmd0 is NOT an External Command >> $cmd0 $@  **"
     fi
 }
 doMsg () { #dd log "doMsg #2  >>$1"; 
 	[[ "#" = "${1:0:1}" ]] && log "$@" && return;
-	doMsgA $1;
+	doMsgA $@;
 }
 onRcvLpInit () { log "#Info - onRcvLpInit is NOOP"; }
 fifoRcvLp () {  onRcvLpInit
@@ -40,7 +40,7 @@ fifoRcvLp () {  onRcvLpInit
         fi 
 #qq	tmOt=false
     done
-    log "[RcvMsg] fifoRcvLp() - Exiting: $myFifoPFN FiFo GONE!"
+    log "[$WfRcvN] fifoRcvLp() - Exiting: $myFifoPFN FiFo GONE!"
 } # ----
 startFifoRcv () { local myCmdDir=$1 myFifoPFN=$2  myFifoFD # FD = File Descriptor
     trap "rm -f $myFifoPFN" EXIT;  [[ -e $myFifoPFN ]] || mkfifo $myFifoPFN;
