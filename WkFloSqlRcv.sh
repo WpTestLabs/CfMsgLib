@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #!/bin/sh
 #	echo "WkFloSqlRcv.sh"; # Receives messages incoming to SQL Kn (GX)
 
