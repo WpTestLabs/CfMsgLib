@@ -20,7 +20,7 @@ doMsg () { #dd log "doMsg #2  >>$1";
 }
 onRcvLpInit () { log "#Info - onRcvLpInit is NOOP"; }
 fifoRcvLp () {  onRcvLpInit
-    local tmOt=false  p='~~~' line='__'  ; # tmOt: timeOut (in sec's)
+    local tmOt=false  p='~~~' line=''  ; # tmOt: timeOut (in sec's)
     while [ -p "$myFifoPFN" ]; do
 #	@@@@          vvvvv  when inactive, progress timeout to longer ???
         while read -r -t 10 -u $myFifoFD p; do 	line=$line$p
