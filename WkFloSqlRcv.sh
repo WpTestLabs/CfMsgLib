@@ -14,18 +14,18 @@ echo "#### Start: $LogFQPFN ####"  > $LogFQPFN
 log () { echo "`date +%Y/%m/%d-%T` - $@" >>$LogFQPFN; }
 #xx export -f log #@@@ But not in Alpine!!!
 export  log #@@@ But not in Alpine!!!
-log "[Hst] Starting log for: WkFloSqlRcv.sh" #@@@@@@@@
+log "[SQL] Starting log for: WkFloSqlRcv.sh" #@@@@@@@@
 
 . $SrvGP/lib/fifoRcvLib-01.sh # Here $SrvLib is GX
 
 CmdMp[Echo]=Echo
-CmdMp[TL]=TL
+# CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
 
-TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
+# TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
 
-Echo () {  TL "[SQL] Echo>> $@"; 
+Echo () {  log "[SQL] Echo>> $@"; 
     msg "# [SQL] Echo>> $@"; 
     msg $@;
 }
