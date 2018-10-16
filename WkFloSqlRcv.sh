@@ -26,7 +26,8 @@ TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
 
 Echo () {  TL "[SQL] Echo>> $@"; 
-    msg "[SQL] Echo>> $@"; 
+    msg "# [SQL] Echo>> $@"; 
+    msg $@;
 }
 
 
