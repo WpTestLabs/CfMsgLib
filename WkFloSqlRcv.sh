@@ -31,4 +31,4 @@ WkPrxySQL () {  log "[WkFlo] Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     fi
 }
 #suFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo  hstWkFloRcv.fifo
-suFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo  WkFlo2Kn.fifo
+suFifoRcv /srv/lib/wkFlo/cmd /srv/run/wkFlo  WkFlo2Kn.fifo
