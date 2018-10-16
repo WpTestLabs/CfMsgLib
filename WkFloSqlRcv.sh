@@ -18,10 +18,17 @@ log "[Hst] Starting log for: WkFloSqlRcv.sh" #@@@@@@@@
 
 . $SrvGP/lib/fifoRcvLib-01.sh # Here $SrvLib is GX
 
+CmdMp[Echo]=Echo
 CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
 
 TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
+
+
+Echo () {  TL "[SQL] Echo>> $@"; 
+    msg "[SQL] Echo>> $@"; 
+}
+
 
 WkPrxySQL () {  log "[WkFlo] Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     if [[ "0" = $1 ]]; then
