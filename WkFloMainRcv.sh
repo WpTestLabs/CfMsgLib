@@ -13,12 +13,26 @@ log "[Hst] Starting log for: fifoRcvLib.sh" #@@@@@@@@
 
 . $SrvLib/fifoRcvLib-01.sh # Here $SrvLib is HX
 
+SqlHB () { log "[SQL] SqlHB: $@  `cat /proc/uptime`"; }
+TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
+
 CmdMp[SqlHB]=SqlHB
 CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
+CmdMp[WfDbDmpCB]=WfDbDmpCB
 
-SqlHB () { log "[SQL] SqlHB: $@  `cat /proc/uptime`"; }
-TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
+WfDbDmpCB () { local SqlSrvID=$1  WkFloTkn=$2  ; shift 2;
+    local WfTknBasHP=$SrvWkFlo/svr/$SqlSrvID/WfDbDmpCB # /{G,B,w8}
+    if [[ -e $WfTknBasHP/w8/$WkFloTkn ]]; then 
+        log "[WkFlo] WfDbDmpCB() - Found tkn file: $WfTknBasHP/w8/$WkFloTkn - Loading..."
+        . $WfTknBasHP/w8/$WkFloTkn
+    else
+        log "[WkFlo] WfDbDmpCB() - ** MISSING tkn file: $WfTknBasHP/w8/$WkFloTkn "
+    fi
+# Confirm G/B / mv results to 'marshal' area
+
+
+}
 
 WkPrxySQL () {  log "[WkFlo] Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     if [[ "0" = $1 ]]; then
