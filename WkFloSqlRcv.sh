@@ -41,7 +41,7 @@ export WkFloTkn
 declare -A WfCmdMP
   WfCmdMP[DbDmp]=DbDmpGX
 
-WkFloGX () { WkFloTkn= $1; local cmdGP=$SrvGP/lib/wkFlo  cmd0=$2  cmd; shift 2;
+WkFloGX () { WkFloTkn=$1; local cmdGP=$SrvGP/lib/wkFlo  cmd0=$2  cmd; shift 2;
   msg "# [SQL] WkFloGX() - Start, tkn: $WkFloTkn  cmd: $cmd0  args: $@ "
   cmd=${WfCmdMP[$cmd0]};  [[ -n "$cmd" ]] && $cmd "$@" && return;
   msg "# [SQL] WkFloGX() >> $cmd0 is NOT an Internal Command!"
@@ -54,10 +54,10 @@ WkFloGX () { WkFloTkn= $1; local cmdGP=$SrvGP/lib/wkFlo  cmd0=$2  cmd; shift 2;
 }
 DbDmpGX () {  local dbN=$1  tmpGP; shift  
     msg "# [SQL] DbDmpGX() >> Start: tkn: $WkFloTkn  DbN: $dbN  args: $@"
-tmpGP=$SrvGP/tmp/$dbN; mkdir -p $tmpGP;  rm -fr $tmpGP/*
-mysqldump --add-drop-table $dbN > $tmpGP/${dbN}.sql.tmp 2> $tmpGP/dqlDmp.log; xc=$? 
-msg "# [SQL] DbDmpGX() - tmpGP: $tmpGP  xc: $xc"
-msg "# WfDbDmpCB $WfFloTkn $xc $tmpGP" 
+tmpGP=$SrvGP/tmp/DbDmp/$WkFloTkn/$dbN; mkdir -p $tmpGP;  rm -fr $tmpGP/*
+mysqldump --add-drop-table $dbN > $tmpGP/${dbN}.sql 2> $tmpGP/dqlDmp.log; xc=$? 
+msg "# [SQL] DbDmpGX() - Return: tmpGP: $tmpGP  xc: $xc"
+msg "WfDbDmpCB $SqlSrvID $WfFloTkn $xc $tmpGP" 
 }  
 ###########
 #suFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo  hstWkFloRcv.fifo
