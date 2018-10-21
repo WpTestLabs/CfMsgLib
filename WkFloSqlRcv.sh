@@ -57,7 +57,7 @@ DbDmpGX () {  local dbN=$1  tmpGP; shift
 tmpGP=$SrvGP/tmp/DbDmp/$WkFloTkn/$dbN; mkdir -p $tmpGP;  rm -fr $tmpGP/*
 mysqldump --add-drop-table $dbN > $tmpGP/${dbN}.sql 2> $tmpGP/dqlDmp.log; xc=$? 
 msg "# [SQL] DbDmpGX() - Return: tmpGP: $tmpGP  xc: $xc"
-msg "WfDbDmpCB $SqlSrvID $WfFloTkn $xc $tmpGP" 
+msg "WfDbDmpCB $SqlSrvID $WkFloTkn $xc $tmpGP" 
 }  
 ###########
 #suFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo  hstWkFloRcv.fifo
