@@ -21,7 +21,8 @@ CmdMp[TL]=TL
 CmdMp[WkPrxySQL]=WkPrxySQL
 CmdMp[WfDbDmpCB]=WfDbDmpCB
 
-WfDbDmpCB () { local SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
+#WfDbDmpCB () { local SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
+WfDbDmpCB () { export SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
     local WfTknBasHP=$SrvWkFlo/svrCB/$SqlSrvID/WfDbDmpCB # /{G,B,w8}
     if [[ -e $WfTknBasHP/w8/$WkFloTkn ]]; then 
         log "[WkFlo] WfDbDmpCB() - Found tkn file: $WfTknBasHP/w8/$WkFloTkn - Loading..."
