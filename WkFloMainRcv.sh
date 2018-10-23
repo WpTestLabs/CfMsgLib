@@ -28,7 +28,7 @@ WfDbDmpCB () { export SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
         log "[WkFlo] WfDbDmpCB() - Found tkn file: $WfTknBasHP/w8/$WkFloTkn - Loading..."
         . $WfTknBasHP/w8/$WkFloTkn
         
- log " Start: dmpVars()";  dmpVars; log "After dmpVars()"
+ log " Start: dmpVars()";  dmpVars; log "After dmpVars()"  #@@@@ <<<< can't get env ?????
  log "qq >> $qq"
 log "[WfDbDmpCB after Tkn load] Loaded token env: $WkFloTkn "
 log "[WfDbDmpCB after Tkn load] WfDbDmpCB $SqlSrvID $WkFloTkn   $xc  $tmpGP"
@@ -36,10 +36,6 @@ log "[WfDbDmpCB after Tkn load] WfDbDmpCB $SqlSrvID $WkFloTkn   $xc  $tmpGP"
 log "[WfDbDmpCB after Tkn load] WfDbDmpCB - Hst Pth: $KnBasHP$tmpGP"
 log "[WfDbDmpCB after Tkn load] WfDbDmpCB - ls: `ls $KnBasHP$tmpGP`"
 
-x=dmpVars
-$x
-
-        
         
         # @@ Load WkStp & WkStpKls, Confirm G|B,  call G()|B(), __? exit!  <<<<<<<<<<<<< 
     else
