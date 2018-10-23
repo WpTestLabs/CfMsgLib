@@ -33,8 +33,8 @@ WfDbDmpCB () { export SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
 log "[WfDbDmpCB after Tkn load] Loaded token env: $WkFloTkn "
 log "[WfDbDmpCB after Tkn load] WfDbDmpCB $SqlSrvID $WkFloTkn   $xc  $tmpGP"
 . $SrvWkFlo/svrByID/$SqlSvrID # Soft link to guestEnv.sh
-log "[WfDbDmpCB after Tkn load] WfDbDmpCB - Hst Pth: $KnBasHP  $tmpGP"
-log "[WfDbDmpCB after Tkn load] WfDbDmpCB - ls: \`ls $KnBasHP/$tmpGP\`"
+log "[WfDbDmpCB after Tkn load] WfDbDmpCB - Hst Pth: $KnBasHP$tmpGP"
+log "[WfDbDmpCB after Tkn load] WfDbDmpCB - ls: `ls $KnBasHP$tmpGP`"
 
         
         
