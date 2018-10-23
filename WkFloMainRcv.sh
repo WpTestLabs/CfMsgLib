@@ -27,6 +27,15 @@ WfDbDmpCB () { export SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
     if [[ -e $WfTknBasHP/w8/$WkFloTkn ]]; then 
         log "[WkFlo] WfDbDmpCB() - Found tkn file: $WfTknBasHP/w8/$WkFloTkn - Loading..."
         . $WfTknBasHP/w8/$WkFloTkn
+        
+log "[WfDbDmpCB after Tkn load] Loaded token env: $WkFloTkn "
+log "[WfDbDmpCB after Tkn load] WfDbDmpCB $SqlSrvID $WkFloTkn   $xc  $tmpGP"
+. $SrvWkFlo/svrByID/$SqlSvrID # Soft link to guestEnv.sh
+log "[WfDbDmpCB after Tkn load] WfDbDmpCB - Hst Pth: $KnBasHP  $tmpGP"
+log "[WfDbDmpCB after Tkn load] WfDbDmpCB - ls: \`ls $KnBasHP/$tmpGP\`"
+
+        
+        
         # @@ Load WkStp & WkStpKls, Confirm G|B,  call G()|B(), __? exit!  <<<<<<<<<<<<< 
     else
         log "[WkFlo] WfDbDmpCB() - ** MISSING tkn file: $WfTknBasHP/w8/$WkFloTkn "
