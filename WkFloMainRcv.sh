@@ -1,3 +1,4 @@
+#!/bin/bash
 #!/bin/sh
 #	echo "WkFloMainRcv.sh";
 
