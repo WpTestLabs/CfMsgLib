@@ -1,12 +1,9 @@
 #!/bin/bash
 #!/bin/sh
-#	echo "WkFloMainRcv.sh";
-
+    #	echo "WkFloMainRcv.sh";
 export LogFQPFN=/srv/log/wkFlo/hstWkFloRcvRAW.txt
 export WfRcvN=WfMainRcv
-
-# Example - msg () { echo "$@" >> $LogFQPFN; } # For Knz, add hardlink w/in Kn vw back to main fifo
-
+    #Example: msg () { echo "$@" >> $LogFQPFN; } # 4 Knz, add hardlink w/in Kn vw back to main fifo
 echo "#### Start: $LogFQPFN ####"  > $LogFQPFN
 log () { echo "`date +%Y/%m/%d-%T` - $@" >>$LogFQPFN; }
 export -f log #@@@ But not in Alpine!!!
@@ -36,17 +33,11 @@ log "[WfDbDmpCB after Tkn load] WfDbDmpCB $SqlSrvID $WkFloTkn   $xc  $tmpGP"
 . $SrvWkFlo/svrByID/$SqlSvrID # Soft link to guestEnv.sh
 log "[WfDbDmpCB after Tkn load] WfDbDmpCB - Hst Pth: $KnBasHP$tmpGP"
 log "[WfDbDmpCB after Tkn load] WfDbDmpCB - ls: `ls $KnBasHP$tmpGP`"
-
-        
         # @@ Load WkStp & WkStpKls, Confirm G|B,  call G()|B(), __? exit!  <<<<<<<<<<<<< 
     else
         log "[WkFlo] WfDbDmpCB() - ** MISSING tkn file: $WfTknBasHP/w8/$WkFloTkn "
-    fi
-# Confirm G/B / mv results to 'marshal' area
-
-
+    fi  # Confirm G/B / mv results to 'marshal' area
 }
-
 WkPrxySQL () {  log "[WkFlo] Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     if [[ "0" = $1 ]]; then
     	log "[WkFlo] WkPrxySQL() - Push $2$3 OffSite!"
@@ -54,9 +45,4 @@ WkPrxySQL () {  log "[WkFlo] Start - WkPrxySQL()  xc: $1   FQHP: $2  FN: $3"
     	log "[WkFlo] WkPrxySQL() - Error exit code: $1"
     fi
 }
-
-        #qq mkdir -p /srv/run/wkFlo  $Srv/Knz/WkFlo/srv/cmd
-        #qq cd $Srv/Knz/WkFlo/srv/cmd
-        #qq startFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo/hstWkFloRcv.fifo
-
 suFifoRcv $Srv/Knz/WkFlo/srv/cmd /srv/run/wkFlo  hstWkFloRcv.fifo
