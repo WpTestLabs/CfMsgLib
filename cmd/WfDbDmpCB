@@ -12,23 +12,26 @@ export SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
 export WfTknBasHP=$SrvWkFlo/svrCB/$SqlSrvID/WfDbDmpCB # /{G,B,w8}
 log "[WfDbDmpCB] WfTknBasHP >> $WfTknBasHP"
 log "[WfDbDmpCB] WkFloTkn >> $WkFloTkn"
+
 if [[ -e $WfTknBasHP/w8/$WkFloTkn ]]; then 
-		log "[WkFlo] WfDbDmpCB() - Found tkn file: $WfTknBasHP/w8/$WkFloTkn - Loading..."
-		. $WfTknBasHP/w8/$WkFloTkn
-		
+    log "[WkFlo] WfDbDmpCB() - Found tkn file: $WfTknBasHP/w8/$WkFloTkn - Loading..."
+	. $WfTknBasHP/w8/$WkFloTkn
 	log "[WfDbDmpCB] Loaded token env: $WkFloTkn "
-	log "[WfDbDmpCB]   $SqlSrvID $WkFloTkn   $xc  $tmpGP"
-	. $SrvWkFlo/svrByID/$SqlSvrID # Soft link to guestEnv.sh
-  
-	log "[WfDbDmpCB after Tkn load] WfDbDmpCB - Hst Pth: $KnBasHP$tmpGP"
-	log "[WfDbDmpCB after Tkn load] WfDbDmpCB - ls: `ls $KnBasHP$tmpGP`"
+else
+	log "[WkFlo] WfDbDmpCB() - ** MISSING tkn file: $WfTknBasHP/w8/$WkFloTkn "
+fi
+
+if [[ -e $SrvWkFlo/svrByID/$SqlSvrID ]]; then 
+    log "[WkFlo] WfDbDmpCB() - Found svr file: $SrvWkFlo/svrByID/$SqlSvrID - Loading..."
+	. $SrvWkFlo/svrByID/$SqlSvrID
+	log "[WfDbDmpCB] Loaded svr env: $SqlSvrID"
+else
+	log "[WkFlo] WfDbDmpCB() - ** MISSING svr file: $SrvWkFlo/svrByID/$SqlSvrID"
+fi
+
+log "[WfDbDmpCB]   $SqlSrvID $WkFloTkn   $xc  $tmpGP"
+log "[WfDbDmpCB after Tkn load] WfDbDmpCB - Hst Pth: $KnBasHP$tmpGP"
+log "[WfDbDmpCB after Tkn load] WfDbDmpCB - ls: `ls $KnBasHP$tmpGP`"
 		# @@ Load WkStp & WkStpKls, Confirm G|B,  call G()|B(), __? exit!  <<<<<<<<<<<<< 
-		
-	else
-		log "[WkFlo] WfDbDmpCB() - ** MISSING tkn file: $WfTknBasHP/w8/$WkFloTkn "
-	fi  # Confirm G/B / mv results to 'marshal' area
-
-
-
 
 log "END: WfDbDmpCB"
