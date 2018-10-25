@@ -1,7 +1,9 @@
 #!/bin/bash
 #!/bin/sh
     #	echo "WkFloMainRcv.sh";
-export LogFQPFN=/srv/log/wkFlo/hstWkFloRcvRAW.txt
+export LogFQP=/srv/log/wkFlo
+export LogFQPFN=$LogFQP/hstWkFloRcvRAW.txt
+export HeartBeatLogFQPFN=$LogFQP/hstWkFloRcvHeartBeat.txt
 export WfRcvN=WfMainRcv
     #Example: msg () { echo "$@" >> $LogFQPFN; } # 4 Knz, add hardlink w/in Kn vw back to main fifo
 echo "#### Start: $LogFQPFN ####"  > $LogFQPFN
@@ -11,13 +13,13 @@ log "[Hst] Starting log for: fifoRcvLib.sh" #@@@@@@@@
 
 . $SrvLib/fifoRcvLib-01.sh # Here $SrvLib is HX
 
-SqlHB () { log "[SQL] SqlHB: $@  `cat /proc/uptime`"; }
+SqlHB () { echo "[SQL] SqlHB: $@  `cat /proc/uptime`" >> $HeartBeatLogFQPFN; }
 TL () { echo "`cat /proc/uptime` -- $@" >> /TimeLine.txt; }
 
 CmdMp[SqlHB]=SqlHB
 CmdMp[TL]=TL
-CmdMp[WkPrxySQL]=WkPrxySQL
-CmdMp[WfDbDmpCB]=WfDbDmpCB
+#CmdMp[WkPrxySQL]=WkPrxySQL
+#CmdMp[WfDbDmpCB]=WfDbDmpCB
 
 #WfDbDmpCB () { local SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
 WfDbDmpCB () { export SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
