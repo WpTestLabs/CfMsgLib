@@ -1,0 +1,13 @@
+#!/bin/bash
+log "Start: WfDbDmpCB - from exported log()"
+
+log () { echo "`date +%Y/%m/%d-%T` - $@" >> $LogFQPFN; }
+
+log " from re def of log"
+
+log "Start: $0 - $@"
+
+env > /tmp/env.txt
+
+
+
