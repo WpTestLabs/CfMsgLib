@@ -1,13 +1,34 @@
 #!/bin/bash
-log "Start: WfDbDmpCB - from exported log()"
 
-log () { echo "`date +%Y/%m/%d-%T` - $@" >> $LogFQPFN; }
-
-log " from re def of log"
+#log "Start: WfDbDmpCB - from exported log()"
+#log () { echo "`date +%Y/%m/%d-%T` - $@" >> $LogFQPFN; }
+#log " from re def of log"
 
 log "Start: $0 - $@"
 
 env > /tmp/env.txt
 
+export SqlSrvID=$1  WkFloTkn=$2  xc=$3  tmpGP=$4; shift 4;
+export WfTknBasHP=$SrvWkFlo/svrCB/$SqlSrvID/WfDbDmpCB # /{G,B,w8}
+log "[WfDbDmpCB] WfTknBasHP >> $WfTknBasHP"
+log "[WfDbDmpCB] WkFloTkn >> $WkFloTkn"
+if [[ -e $WfTknBasHP/w8/$WkFloTkn ]]; then 
+		log "[WkFlo] WfDbDmpCB() - Found tkn file: $WfTknBasHP/w8/$WkFloTkn - Loading..."
+		. $WfTknBasHP/w8/$WkFloTkn
+		
+	log "[WfDbDmpCB] Loaded token env: $WkFloTkn "
+	log "[WfDbDmpCB]   $SqlSrvID $WkFloTkn   $xc  $tmpGP"
+	. $SrvWkFlo/svrByID/$SqlSvrID # Soft link to guestEnv.sh
+  
+	log "[WfDbDmpCB after Tkn load] WfDbDmpCB - Hst Pth: $KnBasHP$tmpGP"
+	log "[WfDbDmpCB after Tkn load] WfDbDmpCB - ls: `ls $KnBasHP$tmpGP`"
+		# @@ Load WkStp & WkStpKls, Confirm G|B,  call G()|B(), __? exit!  <<<<<<<<<<<<< 
+		
+	else
+		log "[WkFlo] WfDbDmpCB() - ** MISSING tkn file: $WfTknBasHP/w8/$WkFloTkn "
+	fi  # Confirm G/B / mv results to 'marshal' area
 
 
+
+
+log "END: WfDbDmpCB"
