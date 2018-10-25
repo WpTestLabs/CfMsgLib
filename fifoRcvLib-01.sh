@@ -9,7 +9,7 @@ doMsgA () {  local cmd0=$1; shift;  # log "doMsgA() - cmd: $cmd >< args: $@"
     log "[$WfRcvN] WkFloRcv - cur dir: $PWD - lib dir: $myCmdDir"
     log "ls>> `ls $myCmdDir`"
     if [[ -e $myCmdDir/$cmd0 ]]; then
-        log "doMsgA() - cmd: $cmd >< args: $@"
+        log "doMsgA() - cmd: $cmd0 >< args: $@"
         $myCmdDir/$cmd0 "$@"; xc=$?;
     else
         log "[$WfRcvN] ** $cmd0 is NOT an External Command >> $cmd0 $@  **"
