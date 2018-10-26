@@ -17,13 +17,14 @@ if [[ -e $WfTknBasHP/w8/$WkFloTkn ]]; then
     log "[WkFlo] WfDbDmpCB() - Found tkn file: $WfTknBasHP/w8/$WkFloTkn - Loading..."
     . $WfTknBasHP/w8/$WkFloTkn
     log "[WfDbDmpCB] Loaded token env: $WkFloTkn "
+    log "[WfDbDmpCB] WkStp: $WkStp   WkStpCbG: $WkStpCbG    WkStpCbB: $WkStpCbB"
 else
     log "[WkFlo] WfDbDmpCB() - ** MISSING tkn file: $WfTknBasHP/w8/$WkFloTkn "
 fi
 
 if [[ -e $SrvWkFlo/svrByID/$SqlSvrID ]]; then 
     log "[WkFlo] WfDbDmpCB() - Found svr file: $SrvWkFlo/svrByID/$SqlSvrID - Loading..."
-    . $SrvWkFlo/svrByID/$SqlSvrID
+    . $SrvWkFlo/svrByID/$SqlSvrID  # Sym link to [SqlSvr] guestEnv.sh
     log "[WfDbDmpCB] Loaded svr env: $SqlSvrID"
 else
     log "[WkFlo] WfDbDmpCB() - ** MISSING svr file: $SrvWkFlo/svrByID/$SqlSvrID"
